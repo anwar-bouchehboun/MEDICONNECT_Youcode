@@ -1,13 +1,15 @@
 <x-guest-layout>
 
 
-    <div class="text-center mb-10 w-40 mx-auto">
-        <a href=""><img src="/storage/images/logo.png" alt="logo"
-                class=' inline-block' width="100px" />
+    <div class="w-40 mx-auto mb-10 text-center">
+        <a href="">
+            {{-- <img src="/storage/images/logo.png" alt="logo"
+                class='inline-block ' width="100px" /> --}}
         </a>
-        <h4 class="text-base font-semibold mt-3">Sign up into your account</h4>
+
     </div>
-    <form method="POST" action="{{ route('register') }}" class="bg-cyan-600 p-10 rounded">
+    <h4 class="mt-3 mb-3 text-5xl font-semibold text-center">Sign up into your account</h4>
+    <form method="POST" action="{{ route('register') }}" class="p-10 rounded bg-cyan-600">
         @csrf
         <div class="grid sm:grid-cols-2 gap-y-7 gap-x-12">
             <div>
@@ -36,13 +38,13 @@
             <div>
                 <x-input-label for="phone" :value="__('Mobile No.')" />
                 <x-text-input id="phone" class="bg-gray-100 w-full text-sm px-4 py-3.5 rounded-md outline-blue-500"
-                    type="text" name="phone" :value="old('phone')" required autocomplete="username" />
+                    type="text" name="phone" :value="old('phone')"  />
                 <x-input-error :messages="$errors->get('phone')" class="mt-2" />
             </div>
             <div>
                 <x-input-label for="email" :value="__('Email')" />
                 <x-text-input id="email" class="bg-gray-100 w-full text-sm px-4 py-3.5 rounded-md outline-blue-500"
-                    type="email" name="email" :value="old('email')" required autocomplete="username" />
+                    type="email" name="email" :value="old('email')"   />
                 <x-input-error :messages="$errors->get('email')" class="mt-2" />
 
             </div>
@@ -51,7 +53,7 @@
                 <x-input-label for="password" :value="__('Password')" />
 
                 <x-text-input id="password" class="bg-gray-100 w-full text-sm px-4 py-3.5 rounded-md outline-blue-500"
-                    type="password" name="password" required autocomplete="new-password" />
+                    type="password" name="password"  />
 
                 <x-input-error :messages="$errors->get('password')" class="mt-2" />
             </div>
@@ -60,7 +62,7 @@
 
                 <x-text-input id="password_confirmation"
                     class="bg-gray-100 w-full text-sm px-4 py-3.5 rounded-md outline-blue-500" type="password"
-                    name="password_confirmation" required autocomplete="new-password" />
+                    name="password_confirmation" />
 
                 <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
             </div>
@@ -76,7 +78,7 @@
             </div>
         </div>
         <div class="!mt-10">
-            <a class="underline text-sm text-white hover:text-gray-900  "
+            <a class="text-sm text-white underline hover:text-gray-900 "
                 href="{{ route('login') }}">
                 {{ __('Already registered?') }}
             </a>
