@@ -9,6 +9,7 @@
                 {{-- <img src="/storage/public/images/logo.png" alt="logo" class="w-40 mx-auto" /> --}}
             </a>
 
+            
             <h2 class="text-3xl font-extrabold text-center">
               Log in to your account
             </h2>
