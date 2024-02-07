@@ -5,7 +5,7 @@
         <div class="flex flex-col items-center justify-center min-h-screen">
           <div class="w-full max-w-md px-6 py-8 bg-white border border-gray-300 rounded">
             <a href="#">
-                {{-- <img src="/storage/public/images/logo.png" alt="logo" class="w-40 mx-auto" /> --}}
+                <img src="/storage/images/logo.png" alt="logo" class="w-40 mx-auto" />
             </a>
 
 
