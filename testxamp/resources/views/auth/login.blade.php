@@ -2,14 +2,13 @@
     <!-- Session Status -->
 
     <div class=" font-[sans-serif] text-[#333]">
-        <x-auth-session-status class="mb-4" :status="session('status')" />
         <div class="flex flex-col items-center justify-center min-h-screen">
           <div class="w-full max-w-md px-6 py-8 bg-white border border-gray-300 rounded">
             <a href="#">
                 {{-- <img src="/storage/public/images/logo.png" alt="logo" class="w-40 mx-auto" /> --}}
             </a>
 
-            
+
             <h2 class="text-3xl font-extrabold text-center">
               Log in to your account
             </h2>
@@ -51,6 +50,8 @@
                     <x-primary-button class="ms-3">
                         {{ __('Log in') }}
                     </x-primary-button>
+                    <x-auth-session-status class="mb-4" :status="session('status')" />
+
                   </div>
                 <a class="text-sm underline rounded-md hover:text-gray-900 "
                 href="{{ route('register') }}">
