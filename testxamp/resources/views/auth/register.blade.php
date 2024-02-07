@@ -1,12 +1,10 @@
 <x-guest-layout>
 
 
-    <div class="w-40 mx-auto mb-10 text-center">
+    <div class="mx-auto text-center">
         <a href="">
-            {{-- <img src="/storage/images/logo.png" alt="logo"
-                class='inline-block ' width="100px" /> --}}
+            <img src="/storage/images/logo.png" alt="logo" class='inline-block' width="200px" />
         </a>
-
     </div>
     <h4 class="mt-3 mb-3 text-5xl font-semibold text-center">Sign up into your account</h4>
     <form method="POST" action="{{ route('register') }}" class="p-10 rounded bg-cyan-600">
@@ -78,16 +76,14 @@
             </div>
         </div>
         <div class="!mt-10">
-            <a class="text-sm text-white underline hover:text-gray-900 "
-                href="{{ route('login') }}">
+            <a class="text-sm text-white underline hover:text-gray-900" href="{{ route('login') }}">
                 {{ __('Already registered?') }}
             </a>
-
             <x-primary-button class="ms-4">
                 {{ __('Register') }}
             </x-primary-button>
         </div>
     </form>
 
-
 </x-guest-layout>
+

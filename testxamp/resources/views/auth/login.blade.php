@@ -1,5 +1,4 @@
 <x-admin-layout>
-    <!-- Session Status -->
 
     <div class=" font-[sans-serif] text-[#333]">
         <div class="flex flex-col items-center justify-center min-h-screen">
