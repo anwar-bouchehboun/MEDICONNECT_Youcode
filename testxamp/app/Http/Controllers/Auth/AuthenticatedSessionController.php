@@ -17,6 +17,9 @@ class AuthenticatedSessionController extends Controller
      */
     public function create(): View
     {
+         if (isset(Auth::user()->id)) {
+            abort(404);
+        }
         return view('auth.login');
     }
 

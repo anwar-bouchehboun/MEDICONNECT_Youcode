@@ -10,7 +10,7 @@
                   @csrf                <h3 class="text-3xl font-extrabold">Sign in to your Email</h3>
                 <div class="my-2">
                   <label for="email"  class="font-bold text-black " >Email</label>
-                  <x-text-input id="email" class="block w-full mt-1" type="email" name="email" :value="old('email')" required autofocus />
+                  <x-text-input id="email" class="block w-full mt-1" type="email" name="email" :value="old('email')"  />
                   <x-input-error :messages="$errors->get('email')" class="mt-2" />
 
                   </div>

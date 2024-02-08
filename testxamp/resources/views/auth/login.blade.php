@@ -30,7 +30,7 @@
               </div>
               <div class="flex items-center justify-between gap-4">
                 <div class="flex items-center">
-                  <input id="remember-me" name="remember" type="checkbox" class="w-4 h-4 text-blue-600 border-gray-300 rounded shrink-0 focus:ring-blue-500" />
+                  <input id="remember-me" name="remember" type="checkbox" {{ old('remember') ? 'checked' : '' }} class="w-4 h-4 text-blue-600 border-gray-300 rounded shrink-0 focus:ring-blue-500" />
                   <label for="remember-me" class="block ml-3 text-sm">
                     {{ __('Remember me') }}
                   </label>
