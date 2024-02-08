@@ -21,6 +21,10 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
+        'cin' ,
+        'Genre',
+        'role',
+        'phone' ,
     ];
 
     /**
@@ -42,4 +46,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+    public function hasRole($role)
+{
+    return $this->role === $role;
+}
 }

@@ -12,15 +12,19 @@ use Illuminate\View\View;
 
 class AuthenticatedSessionController extends Controller
 {
+    // public const HOME = '';
     /**
      * Display the login view.
      */
     public function create(): View
     {
+
          if (isset(Auth::user()->id)) {
             abort(404);
+
         }
         return view('auth.login');
+
     }
 
     /**
@@ -32,7 +36,9 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(RouteServiceProvider::HOME);
+
+         return redirect()->intended(RouteServiceProvider::HOME);
+        //  return redirect('');
     }
 
     /**

@@ -36,7 +36,7 @@ class RegisteredUserController extends Controller
             'cin' => ['required', 'string'],
             'Genre' => ['required', 'string'],
             'role' => ['required'],
-            'phone' => ['required', 'regex:/^[0-9]{10}$/'],
+            'phone' => ['required', 'regex:/^[0-9]{10}$/','unique:users'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
@@ -49,12 +49,12 @@ class RegisteredUserController extends Controller
             'cin' => $request->cin,
             'Genre' => $request->Genre,
             'role' => $request->role,
-            'phone' => $request->role,
+            'phone' => $request->phone,
 
         ]);
-        event(new Registered($user));
+        // event(new Registered($user));
 
-        Auth::login($user ,$request->filled('remember'));
+        // Auth::login($user ,$request->filled('remember'));
 
         return redirect(RouteServiceProvider::HOME);
     }

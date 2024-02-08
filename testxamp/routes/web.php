@@ -1,7 +1,11 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\RoleMiddleware;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\MedecinController;
+use App\Http\Controllers\PatientController;
+use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,10 +22,44 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
+// Route::middleware(['auth', 'permission:admin'])->group(function () {
+//     Route::get('/', [AdminController::class],'index')->name('Admin');
+// });
+
+// Route::middleware(['auth', 'permission:patient'])->group(function () {
+//     Route::get('/patient-dashboard', [PatientController::class, 'index']);
+// });
+
+Route::middleware(['auth', RoleMiddleware::class . ':medecin'])->group(function () {
+    Route::get('/medecin', [MedecinController::class, 'index']);
+});
+Route::middleware(['auth', RoleMiddleware::class . ':patient'])->group(function () {
+    Route::get('/patient', [PatientController::class, 'index']);
+});
+
+Route::middleware(['auth', RoleMiddleware::class . ':admin'])->group(function () {
+    Route::get('/admin', [AdminController::class, 'index'])->name('admin');
+});
 
 Route::get('/', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+
+    if (!auth()->user())
+
+        return redirect('/login');
+
+    switch(auth()->user()->role){
+        case 'admin':
+            return  redirect('/admin');
+
+        case 'patient':
+            return     redirect('/patient');
+        case 'medecin':
+            return   redirect('/medecin');
+        default:
+            return  redirect('/login');
+    }
+
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -29,4 +67,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
