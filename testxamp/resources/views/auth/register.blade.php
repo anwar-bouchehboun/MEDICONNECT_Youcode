@@ -1,5 +1,6 @@
-<x-guest-layout>
 
+
+<x-guest-layout>
 
     <div class="mx-auto text-center">
         <a href="">
@@ -23,55 +24,61 @@
                 <x-input-error :messages="$errors->get('name')" class="mt-2" />
             </div>
             <div>
-                <x-input-label for="Genre" :value="__('Genre')"  />
-                 <select name="Genre" class="bg-gray-100 w-full text-sm px-4 py-3.5 rounded-md outline-blue-500">
+                <x-input-label for="Genre" :value="__('Genre')" />
+                <select name="Genre" class="bg-gray-100 w-full text-sm px-4 py-3.5 rounded-md outline-blue-500">
                     <option value="" disabled selected>Genre</option>
                     <option value="Homme">Homme</option>
                     <option value="Femme">Femme</option>
-                 </select>
-
+                </select>
                 <x-input-error :messages="$errors->get('Genre')" class="mt-2" />
             </div>
-
             <div>
                 <x-input-label for="phone" :value="__('Mobile No.')" />
                 <x-text-input id="phone" class="bg-gray-100 w-full text-sm px-4 py-3.5 rounded-md outline-blue-500"
-                    type="text" name="phone" :value="old('phone')"  />
+                    type="text" name="phone" :value="old('phone')" />
                 <x-input-error :messages="$errors->get('phone')" class="mt-2" />
             </div>
             <div>
                 <x-input-label for="email" :value="__('Email')" />
                 <x-text-input id="email" class="bg-gray-100 w-full text-sm px-4 py-3.5 rounded-md outline-blue-500"
-                    type="email" name="email" :value="old('email')"   />
+                    type="email" name="email" :value="old('email')" />
                 <x-input-error :messages="$errors->get('email')" class="mt-2" />
-
             </div>
-
             <div>
                 <x-input-label for="password" :value="__('Password')" />
-
-                <x-text-input id="password" class="bg-gray-100 w-full text-sm px-4 py-3.5 rounded-md outline-blue-500"
-                    type="password" name="password"  />
-
+                <x-text-input id="password"
+                    class="bg-gray-100 w-full text-sm px-4 py-3.5 rounded-md outline-blue-500" type="password"
+                    name="password" />
                 <x-input-error :messages="$errors->get('password')" class="mt-2" />
             </div>
             <div>
                 <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-
                 <x-text-input id="password_confirmation"
                     class="bg-gray-100 w-full text-sm px-4 py-3.5 rounded-md outline-blue-500" type="password"
                     name="password_confirmation" />
-
                 <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
             </div>
             <div>
-                <x-input-label for="Role" :value="__('Role')"  />
-                 <select name="role" class="bg-gray-100 w-full text-sm px-4 py-3.5 rounded-md outline-blue-500">
+                <x-input-label for="Role" :value="__('Role')" />
+                <select name="role" id="role"
+                    class="bg-gray-100 w-full text-sm px-4 py-3.5 rounded-md outline-blue-500"
+                    onchange="toggleAdditionalFields()">
                     <option value="" disabled selected>Role</option>
                     <option value="patient">Patient</option>
                     <option value="medecin">Medecin</option>
-                 </select>
+                </select>
+                <x-input-error :messages="$errors->get('Genre')" class="mt-2" />
+            </div>
+            <div id="additionalFields" style="display: none;">
+                <x-input-label for="Specialite" :value="__('Specialite')" />
+                <select name="specialite_id"
+                    class="bg-gray-100 w-full text-sm px-4 py-3.5 rounded-md outline-blue-500">
+                    <option value="" disabled selected>Specialite</option>
+                          @foreach ($specialite as $item)
+                          <option value="{{ $item->id }}">{{ $item->specialite }}</option>
 
+                          @endforeach
+                </select>
                 <x-input-error :messages="$errors->get('Genre')" class="mt-2" />
             </div>
         </div>
@@ -86,4 +93,17 @@
     </form>
 
 </x-guest-layout>
+<script>
+    function toggleAdditionalFields() {
+        var roleSelect = document.getElementById('role');
+        var specialiteSelect = document.getElementById('additionalFields');
 
+        if (roleSelect.value === 'medecin') {
+            specialiteSelect.style.display = 'block';
+        } else {
+            specialiteSelect.style.display = 'none';
+        }
+    }
+
+    toggleAdditionalFields();
+</script>

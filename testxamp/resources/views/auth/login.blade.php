@@ -1,6 +1,6 @@
 <x-admin-layout>
 
-    <div class=" font-[sans-serif] text-[#333]">
+    <div class=" font-[sans-serif] text-[#333] m-2">
         <div class="flex flex-col items-center justify-center min-h-screen">
           <div class="w-full max-w-md px-6 py-8 bg-white border border-gray-300 rounded">
             <a href="#">

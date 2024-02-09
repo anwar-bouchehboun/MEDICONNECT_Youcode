@@ -50,7 +50,6 @@ Route::get('/', function () {
     switch(auth()->user()->role){
         case 'admin':
             return  redirect('/admin');
-
         case 'patient':
             return     redirect('/patient');
         case 'medecin':

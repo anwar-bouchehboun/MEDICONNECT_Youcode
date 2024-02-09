@@ -1,7 +1,7 @@
 <x-app-layout>
-    <x-slot name="header">
+    {{-- <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
-            {{ __('Admin') }}
+            {{ __('ADMIN') }}
         </h2>
     </x-slot>
 
@@ -13,7 +13,8 @@
                 </div>
             </div>
         </div>
-    </div>
-</x-app-layout>
+    </div> --}}
 
-<h1>Admin</h1>
+</x-app-layout>
+Admin
+

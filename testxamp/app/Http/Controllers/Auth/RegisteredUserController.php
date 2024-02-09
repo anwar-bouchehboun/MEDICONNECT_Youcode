@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Specialite;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
@@ -20,7 +21,8 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-        return view('auth.register');
+        $specialite = Specialite::all();
+        return view('auth.register', compact('specialite'));
     }
 
     /**
@@ -31,16 +33,16 @@ class RegisteredUserController extends Controller
     public function store(Request $request): RedirectResponse
     {
 
-       $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'cin' => ['required', 'string'],
-            'Genre' => ['required', 'string'],
-            'role' => ['required'],
-            'phone' => ['required', 'regex:/^[0-9]{10}$/','unique:users'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+            'cin' => 'required|string|max:255|unique:users',
+            'Genre' => 'required|string|max:255',
+            'role' => 'required|string|max:255',
+            'phone' => 'required|string|max:255|unique:users',
+            'specialite_id' => 'required_if:role,medecin'
         ]);
-
 
         $user = User::create([
             'name' => $request->name,
@@ -50,8 +52,10 @@ class RegisteredUserController extends Controller
             'Genre' => $request->Genre,
             'role' => $request->role,
             'phone' => $request->phone,
-
+            'specialite_id' => $request->specialite_id
         ]);
+        // dd($request->all());
+
         // event(new Registered($user));
 
         // Auth::login($user ,$request->filled('remember'));

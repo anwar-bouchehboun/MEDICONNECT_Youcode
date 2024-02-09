@@ -10,4 +10,7 @@ class MedecinController extends Controller
     {
         return view('medecin.Dashbord');
     }
+    public function create(){
+        
+    }
 }
