@@ -71,7 +71,18 @@ class MedicamentController extends Controller
      */
     public function update(Request $request, Medicament $medicament)
     {
-        //
+        $request->validate([
+        'medicament'=>'string|required|max:255',
+        'specialite_id'=>'required'
+    ]);
+
+    $medicament->update([
+        'medicament'=>$request->medicament,
+        'specialite_id'=>$request->specialite_id
+    ]);
+
+return redirect()->back()->with('success', 'Medicament mise à jour avec succès.');
+
     }
 
     /**
@@ -79,7 +90,9 @@ class MedicamentController extends Controller
      */
     public function destroy(Medicament $medicament)
     {
-        //
+        $medicament->delete();
+
+        return redirect()->route('medicament.index')->with('success', 'Medicament supprimée avec succès.');
 
    }
 }

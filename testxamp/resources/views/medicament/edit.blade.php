@@ -2,6 +2,11 @@
     <div class="flex">
         <x-sidebar/>
         <div class="container p-4 mx-auto">
+            @if(session('success'))
+            <div class="relative px-4 py-3 mt-2 text-green-700 bg-green-100 border border-green-400 rounded" role="alert">
+                <span class="block sm:inline">{{ session('success') }}</span>
+            </div>
+        @endif
             <h2 class="mb-4 text-lg font-semibold uppercase">Modifier le Médicament</h2>
             <form action="{{ route('medicament.update', $medicament->id) }}" method="POST" class="max-w-lg mx-auto">
                 @csrf

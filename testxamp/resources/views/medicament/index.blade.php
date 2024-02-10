@@ -79,9 +79,9 @@
                     </table>
                 </div>
                 <!-- Pagination -->
-                <div class="px-6 mt-4">
+
                     {{ $medicament->links() }}
-                </div>
+            
             </div>
 
 
