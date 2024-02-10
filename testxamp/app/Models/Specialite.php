@@ -12,4 +12,8 @@ class Specialite extends Model
         'specialite',
 
     ];
+    public function medicaments()
+    {
+        return $this->hasMany(Medicament::class, 'specialite_id');
+    }
 }

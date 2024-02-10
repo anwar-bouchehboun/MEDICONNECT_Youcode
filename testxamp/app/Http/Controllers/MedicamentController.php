@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Medicament;
+use App\Models\Specialite;
 use Illuminate\Http\Request;
 
 class MedicamentController extends Controller
@@ -12,7 +13,8 @@ class MedicamentController extends Controller
      */
     public function index()
     {
-        //
+      $specialite=  Specialite::all();
+      return view('medicament.index',['specialite'=>$specialite]);
     }
 
     /**
@@ -28,7 +30,19 @@ class MedicamentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'medicament'=>'string|required|max:255',
+            'specialite_id'=>'required'
+        ]);
+
+        // dd( $request->all());
+        Medicament::create([
+            'medicament'=>$request->medicament,
+            'specialite_id'=>$request->specialite_id
+        ]);
+
+         return redirect()->route('medicament.index')->with('success', 'Vous avez ajouté une Medicament avec succès.');
+
     }
 
     /**
@@ -61,5 +75,6 @@ class MedicamentController extends Controller
     public function destroy(Medicament $medicament)
     {
         //
-    }
+
+   }
 }

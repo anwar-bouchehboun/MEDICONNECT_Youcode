@@ -12,14 +12,11 @@
 
 
 <aside class="relative hidden w-64 h-screen shadow-xl bg-sidebar sm:block">
-    <div class="p-6">
-        <a href="" class="text-3xl font-semibold text-white uppercase hover:text-gray-300">Admin</a>
-    </div>
     <nav class="pt-3 text-base font-semibold text-white">
         <a href="{{ route('admin') }}" class="flex items-center py-4 pl-6 mb-3 text-white active-nav-link nav-item">
             Dashboard
         </a>
-        <a href="" class="flex items-center py-4 pl-6 mb-3 text-white active-nav-link nav-item">
+        <a href="{{ route('medicament.index') }}" class="flex items-center py-4 pl-6 mb-3 text-white active-nav-link nav-item">
            Medicament
         </a>
         <a href="{{ route('specialite.index') }}" class="flex items-center py-4 pl-6 mb-3 text-white active-nav-link nav-item">
