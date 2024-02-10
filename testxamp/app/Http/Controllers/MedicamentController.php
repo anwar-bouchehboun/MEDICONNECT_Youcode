@@ -14,7 +14,10 @@ class MedicamentController extends Controller
     public function index()
     {
       $specialite=  Specialite::all();
-      return view('medicament.index',['specialite'=>$specialite]);
+      $medicament=Medicament::paginate(5);
+      return view('medicament.index',['specialite'=>$specialite,
+      'medicament'=>$medicament
+    ]);
     }
 
     /**
@@ -58,8 +61,10 @@ class MedicamentController extends Controller
      */
     public function edit(Medicament $medicament)
     {
-        //
+        $specialites = Specialite::all();
+        return view('medicament.edit', compact('medicament', 'specialites'));
     }
+
 
     /**
      * Update the specified resource in storage.

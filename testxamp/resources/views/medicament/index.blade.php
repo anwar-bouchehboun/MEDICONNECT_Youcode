@@ -21,13 +21,18 @@
                                     <option value="{{ $item->id }}">{{ $item->specialite }}</option>
                                 @endforeach
                             </select>
-
+                            @error('specialite_id')
+                            <span class="text-red-500">{{ $message }}</span>
+                        @enderror
 
 
                         </div>
                         <div class="mb-4">
                             <label for="nom_medicament" class="block mb-2 font-medium text-gray-700">Nom du médicament :</label>
                             <input type="text" id="nom_medicament" name="medicament" class="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500" placeholder="Entrez le nom du médicament">
+                            @error('medicament')
+                            <span class="text-red-500">{{ $message }}</span>
+                        @enderror
                         </div>
 
                         <button type="submit" class="w-full px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Ajouter le médicament</button>
@@ -43,24 +48,43 @@
                             <tr>
                                 <th class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-blue-500 uppercase bg-blue-100 border-b border-gray-300">ID</th>
                                 <th class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-blue-500 uppercase bg-blue-100 border-b border-gray-300">Medicament</th>
-                                <th class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-blue-500 uppercase bg-blue-100 border-b border-gray-300">Date Cration</th>
+                                <th class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-blue-500 uppercase bg-blue-100 border-b border-gray-300">Specialite</th>
+                                <th class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-blue-500 uppercase bg-blue-100 border-b border-gray-300">Date Creation</th>
                                 <th class="px-6 py-3 bg-blue-100 border-b border-gray-300"></th>
                                 <th class="px-6 py-3 bg-blue-100 border-b border-gray-300"></th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-200">
+                            @foreach ($medicament as $item)
                             <tr>
-                          <td></td>
-
+                                <td class="px-6 py-4 whitespace-no-wrap">{{ $item->id }}</td>
+                                <td class="px-6 py-4 whitespace-no-wrap">{{ $item->medicament }}</td>
+                                <td class="px-6 py-4 whitespace-no-wrap">{{ $item->specialite->specialite }}</td>
+                                <td class="px-6 py-4 whitespace-no-wrap">{{ $item->created_at }}</td>
+                                <!-- Bouton Edit -->
+                                <td class="px-6 py-4 whitespace-no-wrap">
+                                    <a href="{{ route('medicament.edit', $item) }}" class="text-blue-500 hover:text-blue-700">Edit</a>
+                                </td>
+                                <!-- Bouton Delete -->
+                                <td class="px-6 py-4 whitespace-no-wrap">
+                                    <form id="deleteForm{{ $item->id }}" action="{{ route('medicament.destroy', $item->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce médicament ?')" class="text-red-500 hover:text-red-700">Delete</button>
+                                    </form>
+                                </td>
                             </tr>
-
-
+                            @endforeach
                         </tbody>
-
                     </table>
-
+                </div>
+                <!-- Pagination -->
+                <div class="px-6 mt-4">
+                    {{ $medicament->links() }}
                 </div>
             </div>
+
+
         </div>
     </div>
 

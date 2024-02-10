@@ -59,17 +59,18 @@
                                         @method('DELETE')
                                         <button type="submit" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette spécialité ?')" class="text-red-500 hover:text-red-700">Delete</button>
                                     </form>
-
                                 </td>
                             </tr>
-                        @endforeach
-
-
+                            @endforeach
                         </tbody>
-                        {{ $specialite->links() }}
                     </table>
-
                 </div>
+                <!-- Pagination -->
+                <div class="mt-4 px-6">
+                    {{ $specialite->links() }}
+                </div>
+
+
             </div>
 
         </div>
