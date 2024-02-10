@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SpecialiteController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\RoleMiddleware;
 use App\Http\Controllers\AdminController;
@@ -39,6 +40,7 @@ Route::middleware(['auth', RoleMiddleware::class . ':patient'])->group(function 
 
 Route::middleware(['auth', RoleMiddleware::class . ':admin'])->group(function () {
     Route::get('/admin', [AdminController::class, 'index'])->name('admin');
+    Route::resource('/specialite', SpecialiteController::class);
 });
 
 Route::get('/', function () {

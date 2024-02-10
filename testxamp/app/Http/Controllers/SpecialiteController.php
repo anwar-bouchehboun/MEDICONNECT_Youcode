@@ -12,7 +12,10 @@ class SpecialiteController extends Controller
      */
     public function index()
     {
-        //
+     $specialite = Specialite::paginate(5);
+        // $specialite = Specialite::all();
+
+        return view('admin.specialite.index',['specialite' => $specialite]);
     }
 
     /**
@@ -20,7 +23,7 @@ class SpecialiteController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.specialite.create');
     }
 
     /**
@@ -28,8 +31,17 @@ class SpecialiteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'specialite' => 'required|regex:/^[a-zA-Z\s]+$/|max:255'
+        ]);
+
+        Specialite::create([
+            'specialite' => $request->specialite
+        ]);
+
+         return redirect()->route('specialite.index')->with('success', 'Vous avez ajouté une spécialité avec succès.');
     }
+
 
     /**
      * Display the specified resource.
@@ -44,22 +56,33 @@ class SpecialiteController extends Controller
      */
     public function edit(Specialite $specialite)
     {
-        //
+        return view('admin.specialite.edit', compact('specialite'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+
     public function update(Request $request, Specialite $specialite)
     {
-        //
+        $request->validate([
+            'specialite' => 'required|string|max:255',
+        ]);
+
+        $specialite->update([
+            'specialite' => $request->specialite,
+        ]);
+
+        return redirect()->route('specialite.index')->with('success', 'Spécialité mise à jour avec succès.');
     }
+
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Specialite $specialite)
     {
-        //
+
+        $specialite->delete();
+
+        return redirect()->route('specialite.index')->with('success', 'Spécialité supprimée avec succès.');
     }
+
 }

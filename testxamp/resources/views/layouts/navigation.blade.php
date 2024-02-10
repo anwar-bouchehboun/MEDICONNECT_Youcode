@@ -5,7 +5,9 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="flex items-center shrink-0">
-
+                    <a href="#">
+                        <img src="/storage/images/logo.png" alt="logo" class="w-20 mx-auto" />
+                    </a>
                 </div>
 
                 <!-- Navigation Links -->
