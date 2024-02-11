@@ -75,6 +75,8 @@ class ReservationController extends Controller
 
     public function store(Request $request)
     {
+
+
         $request->validate([
             'date' => 'required|date',
             'status' => 'required',
@@ -91,19 +93,22 @@ class ReservationController extends Controller
 
         // Vérifie si le rendez-vous est d'urgence
         if ($request->status == 'urgence') {
-            // Trouve un médecin disponible pour cette date
+            // Trouver un médecin disponible pour cette date et dans la spécialité sélectionnée
             $medecinDisponible = User::whereDoesntHave('reservations', function ($query) use ($request) {
                 $query->where('date', $request->date);
             })
-                ->where('role', 'medecin')
-                ->first();
-
+            ->where('role', 'medecin')
+            ->whereHas('specialite', function ($query) use ($request) {
+                $query->where('specialite_id',$request->input('specialite_id'));
+            })
+            ->first();
             if (!$medecinDisponible) {
-                return back()->withInput()->withErrors(['date' => 'No doctor available for this date. Please choose another date.']);
+                return back()->withInput()->withErrors(['date' => 'No doctor available for this date and specialty. Please choose another date.']);
             }
 
             $medecinId = $medecinDisponible->id;
-        } else {
+        }
+         else {
             // Pour les rendez-vous normaux, récupère l'identifiant du médecin sélectionné
             $request->validate([
                 'medecin_id' => 'required',

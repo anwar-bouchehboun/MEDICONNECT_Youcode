@@ -21,10 +21,15 @@
             </form>
 
          </div>
-         @if(isset($medecin))
+
 
          <form action="{{ route('reservation.store') }}" method="post" class="p-6">
             @csrf
+            <div class="mb-2">
+@if( isset($specialite_id))
+                <input type="hidden" name="specialite_id" class="px-3 py-2 border rounded-md w-60 focus:outline-none focus:border-blue-500" value="{{$specialite_id }}">
+           @endif
+            </div>
             <div class="mb-2">
                 <label for="date" class="block mb-2 text-sm font-medium text-gray-700">Date:</label>
                 <input type="datetime-local" id="date" name="date" class="px-3 py-2 border rounded-md w-60 focus:outline-none focus:border-blue-500" value="{{ old('date') }}">
@@ -32,10 +37,12 @@
             <div class="mb-2">
                 <label for="status" class="block mb-2 text-sm font-medium text-gray-700">Statut:</label>
                 <select id="status" name="status" class="px-3 py-2 border rounded-md w-60 focus:outline-none focus:border-blue-500">
-                    <option value="normal">Normal</option>
                     <option value="urgence">Urgence</option>
+                    <option value="normal">Normal</option>
+
                 </select>
             </div>
+            @if(isset($medecin))
             <div class="mb-2">
                 <label for="medecin_id" class="block mb-2 text-sm font-medium text-gray-700">Médecin:</label>
                 <select id="medecin_id" name="medecin_id" class="px-3 py-2 border rounded-md w-60 focus:outline-none focus:border-blue-500">
