@@ -24,8 +24,8 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
-             $table->foreignid('specialite_id')->constrained('specialites');
-
+             $table->foreignid('specialite_id')->constrained('specialites')->nullable();
+             $table->softDeletes();
         });
 
     }

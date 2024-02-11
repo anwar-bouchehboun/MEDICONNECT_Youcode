@@ -13,7 +13,14 @@ class SpecialiteSeeder extends Seeder
      */
     public function run(): void
     {
-        Specialite ::factory(10)->create();
+
+        Specialite::insert([
+            ['specialite' => 'Médecine interne'],
+            ['specialite' => 'Médecine familiale'],
+            ['specialite' => 'Médecine d\'urgence'],
+            ['specialite' => 'Médecine du travail'],
+            ['specialite' => 'Médecine communautaire'],
+        ]);
 
     }
 }

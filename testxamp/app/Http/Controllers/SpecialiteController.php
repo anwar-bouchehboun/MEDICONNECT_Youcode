@@ -32,14 +32,14 @@ class SpecialiteController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'specialite' => 'required|regex:/^[a-zA-Z\s]+$/|max:255'
+            'specialite' => 'required|regex:/^[a-zA-Z\s\-\'\.\,\(\)]+$/|max:255'
         ]);
 
         Specialite::create([
             'specialite' => $request->specialite
         ]);
 
-         return redirect()->route('specialite.index')->with('success', 'Vous avez ajouté une spécialité avec succès.');
+        return redirect()->route('specialite.index')->with('success', 'Spécialité ajoutée avec succès!');
     }
 
 

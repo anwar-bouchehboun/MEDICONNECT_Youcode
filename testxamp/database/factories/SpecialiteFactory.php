@@ -17,7 +17,7 @@ class SpecialiteFactory extends Factory
     public function definition(): array
     {
         return [
-            'specialite' => fake()->word
+            // 'specialite'
           ];
     }
 }

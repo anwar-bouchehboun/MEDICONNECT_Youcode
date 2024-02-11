@@ -1,13 +1,14 @@
 <?php
 
-use App\Http\Controllers\MedicamentController;
-use App\Http\Controllers\SpecialiteController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\RoleMiddleware;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\MedecinController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\MedicamentController;
+use App\Http\Controllers\SpecialiteController;
+use App\Http\Controllers\ReservationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,7 +37,9 @@ Route::middleware(['auth', RoleMiddleware::class . ':medecin'])->group(function 
     Route::get('/medecin', [MedecinController::class, 'index']);
 });
 Route::middleware(['auth', RoleMiddleware::class . ':patient'])->group(function () {
-    Route::get('/patient', [PatientController::class, 'index']);
+    Route::get ('/patient', [PatientController::class, 'index'])->name('patient');
+    Route::resource('/reservation',ReservationController::class);
+    Route::get('/patient/filtrer', [ReservationController::class, 'filtrer'])->name('filtrer.specialite');
 });
 
 Route::middleware(['auth', RoleMiddleware::class . ':admin'])->group(function () {

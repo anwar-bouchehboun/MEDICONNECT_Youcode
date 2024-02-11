@@ -13,6 +13,10 @@
 
 <aside class="relative hidden w-64 h-screen shadow-xl bg-sidebar sm:block">
     <nav class="pt-3 text-base font-semibold text-white">
+        @auth
+
+
+        @if (Auth::user()->role == 'admin')
         <a href="{{ route('admin') }}" class="flex items-center py-4 pl-6 mb-3 text-white active-nav-link nav-item">
             Dashboard
         </a>
@@ -31,8 +35,23 @@
                                 Log Out
                             </button>
                         </form>
+    @endif
+    @if (Auth::user()->role == 'patient')
+    <a href="{{ route('patient') }}" class="flex items-center py-4 pl-6 mb-3 text-white active-nav-link nav-item">
+        Dashboard
+    </a>
+    <a href="{{ route('profile.edit') }}" class="flex items-center py-4 pl-6 mb-3 text-white active-nav-link nav-item">
+        Profile
+    </a>
+    <a href="{{ route('reservation.index') }}" class="flex items-center py-4 pl-6 mb-3 text-white active-nav-link nav-item">
+     Reservation
+    </a>
+    @endif
 
 
+
+
+    @endauth
         <!-- Autres liens -->
     </nav>
     <!-- Bouton de mise à niveau -->
