@@ -7,12 +7,33 @@
                 <div class="mt-4">
                     <h4 class="text-sm font-extrabold ms-4">{{ $medecin->name }}</h4>
                     <p class="mt-1 text-xs font-bold text-gray-400 ms-4">{{ $medecin->genre }}</p>
+
                 </div>
-                <h3 class="text-xl font-semibold ms-4">{{ $medecin->specialite->specialite }}</h3>
+                <h3 class="mb-3 text-xl font-semibold ms-4">{{ $medecin->specialite->specialite }}</h3>
+                <a href="{{ route('patient.show',$medecin) }}" class="px-5 py-1 mx-3 my-3 mt-2 text-white bg-blue-600 rounded w-60">Réserver</a>
+                <form action="{{ route('patient.store') }}" method="post" >
+                    @csrf
+                    <input type="text" name="medecin_id" id="medecin" value="{{ $medecin->id }}" readonly class="hidden px-3 py-2 border rounded-md w-60 focus:outline-none focus:border-blue-500">
+                    <button type="submit" class="px-5 py-1 mx-3 my-3 mt-2 text-white bg-teal-500 rounded w-60">Ajouter Favoris</button>
+
+            </form>
+            @if ($errors->any())
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                <strong class="font-bold">Erreur!</strong>
+                <span class="block sm:inline">{{ $errors->first() }}</span>
+            </div>
+        @endif
+
+        @if(session('success'))
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+                <strong class="font-bold">Succès!</strong>
+                <span class="block sm:inline">{{ session('success') }}</span>
+            </div>
+        @endif
+
                 <label for="message" class="block mt-4 mb-2 text-sm font-medium text-gray-900 dark:text-white ms-2">Votre message</label>
                 <textarea id="message" rows="4" class="block p-2.5 w-80 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 placeholder-gray-400" placeholder="Écrivez vos pensées ici..."></textarea>
                 <button class="py-1 mt-3 text-white bg-red-600 rounded w-60">Ajouter un commentaire</button>
-                <button class="py-1 mt-2 text-white bg-blue-600 rounded w-60">Réserver</button>
                 <div class="flex items-center mt-4">
                     <label for="rating" class="block mr-2 text-sm font-medium text-gray-700">Note :</label>
                     <div class="flex">
@@ -29,6 +50,7 @@
                     </div>
                     </div>
                 </div>
+
             </div>
             <div class="ps-5">
                 <h3 class="text-3xl uppercase">Commentaires :</h3>
@@ -39,7 +61,7 @@
 
 
     </div>
-   
+
     <script>
         const ratingButtons = document.querySelectorAll('input[type="radio"]');
         const ratings = document.querySelector('.ratings');

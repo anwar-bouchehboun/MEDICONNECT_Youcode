@@ -37,14 +37,14 @@
                         </form>
     @endif
     @if (Auth::user()->role == 'patient')
-    <a href="{{ route('patient') }}" class="flex items-center py-4 pl-6 mb-3 text-white active-nav-link nav-item">
+    <a href="{{ route('patient.index') }}" class="flex items-center py-4 pl-6 mb-3 text-white active-nav-link nav-item">
         Dashboard
     </a>
     <a href="{{ route('profile.edit') }}" class="flex items-center py-4 pl-6 mb-3 text-white active-nav-link nav-item">
         Profile
     </a>
     <a href="{{ route('reservation.index') }}" class="flex items-center py-4 pl-6 mb-3 text-white active-nav-link nav-item">
-     Reservation
+     Urgence
     </a>
     <a href="" class="flex items-center py-4 pl-6 mb-3 text-white active-nav-link nav-item">
         Favoris

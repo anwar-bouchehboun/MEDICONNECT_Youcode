@@ -37,9 +37,9 @@ Route::middleware(['auth', RoleMiddleware::class . ':medecin'])->group(function 
     Route::get('/medecin', [MedecinController::class, 'index']);
 });
 Route::middleware(['auth', RoleMiddleware::class . ':patient'])->group(function () {
-    Route::get ('/patient', [PatientController::class, 'index'])->name('patient');
+    Route::resource ('/patient', PatientController::class);
     Route::resource('/reservation',ReservationController::class);
-    Route::get('/patient/filtrer', [ReservationController::class, 'filtrer'])->name('filtrer.specialite');
+    // Route::get('/patient/filtrer', [ReservationController::class, 'filtrer'])->name('filtrer.specialite');
 });
 
 Route::middleware(['auth', RoleMiddleware::class . ':admin'])->group(function () {

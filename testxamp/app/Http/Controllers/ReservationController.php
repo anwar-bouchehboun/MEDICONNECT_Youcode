@@ -17,9 +17,9 @@ class ReservationController extends Controller
      */
     public function index()
     {
-        $specialite = Specialite::all();
+        // $specialite = Specialite::all();
 
-        return view('patient.reservation', compact('specialite'));
+        return view('patient.urgence');
     }
 
     /**
@@ -40,40 +40,8 @@ class ReservationController extends Controller
 
     }
 
-    // public function store(Request $request)
-    // {
-    //     $request->validate([
-    //         'medecin_id' => 'required',
-    //         'date' => 'required|date',
-    //         'status' => 'required',
-    //     ]);
-
-    //     $providedDate = new DateTime($request->date);
-    //     $currentDate = new DateTime();
-
-    //     if ($providedDate < $currentDate) {
-    //         return redirect()->back()->withErrors(['date' => 'Please choose a date in the future.']);
-    //     }
 
 
-    //     $existingReservation = Reservation::where('medecin_id', $request->medecin_id)
-    //                                        ->where('date', $request->date)
-    //                                        ->exists();
-
-    //     if ($existingReservation) {
-    //         return back()->withInput()->withErrors(['date' => 'A reservation for this date already exists. Please choose a different date.']);
-    //     }
-
-    //  $r=   Reservation::create([
-    //         'patient_id' => Auth::id(),
-    //         'medecin_id' => $request->medecin_id,
-    //         'date' => $request->date,
-    //         'status' => $request->status,
-    //     ]);
-    //     return redirect()->route('patient')->with('success', 'Vous avez ajouté une Medicament avec succès.');
-
-    // }
-    // Assurez-vous d'importer le modèle Reservation en haut de votre fichier
 
     public function store(Request $request)
     {
@@ -82,7 +50,6 @@ class ReservationController extends Controller
         $request->validate([
             'date' => 'required|date',
             'status' => 'required',
-            // 'specialite_id' => 'required',
 
         ]);
 
@@ -93,24 +60,24 @@ class ReservationController extends Controller
             return redirect()->back()->withErrors(['date' => 'Please choose a date in the future.']);
         }
 
-        // Vérifie si le rendez-vous est d'urgence
         if ($request->status == 'urgence') {
-            // Trouver un médecin disponible pour cette date et dans la spécialité sélectionnée
-            $medecinDisponible = User::whereDoesntHave('reservations', function ($query) use ($request) {
-                $query->where('date', $request->date);
+            $medecinDisponible = User::select('users.*')
+            ->join('specialites', 'users.specialite_id', '=', 'specialites.id')
+            ->leftJoin('reservations', function ($join) use ($request) {
+                $join->on('users.id', '=', 'reservations.medecin_id')
+                     ->where('reservations.date', $request->date);
             })
-                ->where('role', 'medecin')
-                ->whereHas('specialite', function ($query) use ($request) {
-                    $query->where('specialite_id', $request->input('specialite_id'));
-                })
-                ->first();
+            ->whereNull('reservations.medecin_id')
+            ->where('users.role', 'medecin')
+            ->where('specialites.specialite', "Médecine d'urgence")
+            ->first();
+
             if (!$medecinDisponible) {
                 return back()->withInput()->withErrors(['date' => 'No doctor available for this date and specialty. Please choose another date.']);
             }
 
             $medecinId = $medecinDisponible->id;
         } else {
-            // Pour les rendez-vous normaux, récupère l'identifiant du médecin sélectionné
             $request->validate([
                 'medecin_id' => 'required',
             ]);
@@ -132,8 +99,9 @@ class ReservationController extends Controller
             'date' => $request->date,
             'status' => $request->status,
         ]);
+        return redirect()->back()->with('success', 'Vous avez ajouté une réservation avec succès.');
 
-        return redirect()->route('patient')->with('success', 'Vous avez ajouté une réservation avec succès.');
+        // return redirect()->route('patient.index')->with('success', 'Vous avez ajouté une réservation avec succès.');
     }
 
 
