@@ -46,6 +46,9 @@
     <a href="{{ route('reservation.index') }}" class="flex items-center py-4 pl-6 mb-3 text-white active-nav-link nav-item">
      Reservation
     </a>
+    <a href="" class="flex items-center py-4 pl-6 mb-3 text-white active-nav-link nav-item">
+        Favoris
+       </a>
     <form action="{{ route('logout') }}" method="POST" class="inline-block ml-7">
         @csrf
         <button type="submit" class="px-12 py-2 text-white bg-red-500 rounded hover:bg-red-600">

@@ -9,9 +9,13 @@ use Illuminate\Http\Request;
 class PatientController extends Controller
 {
     public function index(){
-        return view('patient.Dashbord');
+
+
+$medecins = User::where('role', 'medecin')->get();
+
+        return view('patient.Dashbord',compact('medecins'));
     }
- 
+
 
 
 }

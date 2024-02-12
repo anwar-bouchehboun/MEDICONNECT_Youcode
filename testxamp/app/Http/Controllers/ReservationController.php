@@ -6,6 +6,7 @@ use DateTime;
 use App\Models\User;
 use App\Models\Specialite;
 use App\Models\Reservation;
+use Faker\Extension\CompanyExtension;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,6 +18,7 @@ class ReservationController extends Controller
     public function index()
     {
         $specialite = Specialite::all();
+
         return view('patient.reservation', compact('specialite'));
     }
 
@@ -97,18 +99,17 @@ class ReservationController extends Controller
             $medecinDisponible = User::whereDoesntHave('reservations', function ($query) use ($request) {
                 $query->where('date', $request->date);
             })
-            ->where('role', 'medecin')
-            ->whereHas('specialite', function ($query) use ($request) {
-                $query->where('specialite_id',$request->input('specialite_id'));
-            })
-            ->first();
+                ->where('role', 'medecin')
+                ->whereHas('specialite', function ($query) use ($request) {
+                    $query->where('specialite_id', $request->input('specialite_id'));
+                })
+                ->first();
             if (!$medecinDisponible) {
                 return back()->withInput()->withErrors(['date' => 'No doctor available for this date and specialty. Please choose another date.']);
             }
 
             $medecinId = $medecinDisponible->id;
-        }
-         else {
+        } else {
             // Pour les rendez-vous normaux, récupère l'identifiant du médecin sélectionné
             $request->validate([
                 'medecin_id' => 'required',
@@ -137,12 +138,11 @@ class ReservationController extends Controller
 
 
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Reservation $reservation)
+
+    public function show($user)
     {
-        //
+    $medecin=User::findOrFail($user);
+    return view('patient.show',compact('medecin'));
     }
 
     /**
