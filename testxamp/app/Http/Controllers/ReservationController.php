@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use DateTime;
 use App\Models\User;
 use App\Models\Specialite;
+use App\Models\Commentaire;
 use App\Models\Reservation;
-use Faker\Extension\CompanyExtension;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Faker\Extension\CompanyExtension;
 
 class ReservationController extends Controller
 {
@@ -33,10 +35,10 @@ class ReservationController extends Controller
     public function filtrer(Request $request)
     {
         $specialite_id = $request->input('specialite_id');
+        $medecins = User::where('specialite_id', $specialite_id)->get();
 
-        $medecin = User::where('specialite_id', $specialite_id)->get();
         $specialite = Specialite::all();
-        return view('patient.reservation', compact('specialite', 'medecin', 'specialite_id'));
+        return view('patient.listeDoctor', compact('specialite', 'medecins'));
 
     }
 
@@ -55,10 +57,16 @@ class ReservationController extends Controller
 
         $providedDate = new DateTime($request->date);
         $currentDate = new DateTime();
-
         if ($providedDate < $currentDate) {
             return redirect()->back()->withErrors(['date' => 'Please choose a date in the future.']);
         }
+
+        // $existingReservation = Reservation::where('patient_id', Auth::id())
+        // ->where('date', $request->date)
+        // ->exists();
+        // if ($existingReservation) {
+        //     return back()->withInput()->withErrors(['date' => 'You already have a reservation for this date and time.']);
+        // }
 
         if ($request->status == 'urgence') {
             $medecinDisponible = User::select('users.*')
@@ -104,14 +112,35 @@ class ReservationController extends Controller
         // return redirect()->route('patient.index')->with('success', 'Vous avez ajouté une réservation avec succès.');
     }
 
-
+    public function calculerRatingMedecin($medecinId)
+    {
+        $averageRating = Commentaire::where('medecin_id', $medecinId)
+            ->select(DB::raw('AVG(rating) AS average_rating'))
+            ->groupBy('medecin_id')
+            ->first();
+      if($averageRating==null){
+        return null;
+      }
+        return $averageRating->average_rating;
+    }
 
 
     public function show($user)
     {
-    $medecin=User::findOrFail($user);
-    return view('patient.show',compact('medecin'));
+  $medecin = User::findOrFail($user);
+  $averageRating = $this->calculerRatingMedecin($user);
+  $commentaires = Commentaire::where('medecin_id', $medecin->id)->get();
+
+  return view('patient.show', compact('medecin', 'commentaires','averageRating'));
     }
+
+
+
+
+
+
+
+
 
     /**
      * Show the form for editing the specified resource.

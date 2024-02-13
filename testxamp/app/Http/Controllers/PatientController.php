@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Certificat;
 use App\Models\User;
 use App\Models\Favorie;
 use App\Models\Specialite;
@@ -11,20 +12,18 @@ use Illuminate\Support\Facades\Auth;
 class PatientController extends Controller
 {
     public function index(){
+        $patientId = Auth::id();
+      $Certaficat=Certificat::where('patient_id', $patientId)->get();
 
-
-// $medecins = User::where('role', 'medecin')->get();
-
-        return view('patient.Dashbord');
+        return view('patient.Dashbord',compact('Certaficat'));
     }
     public function showDoctor(){
         $medecins = User::where('role', 'medecin')->get();
-
-        return view('patient.listeDoctor',compact('medecins'));
+        $specialite = Specialite::all();
+        return view('patient.listeDoctor',compact('medecins','specialite'));
     }
     public function show( $user)
     {
-
         $medecin = User::findOrFail($user);
 
     return view('patient.reservation',compact('medecin'));

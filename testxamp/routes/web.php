@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommeantaireController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\RoleMiddleware;
 use App\Http\Controllers\AdminController;
@@ -37,12 +38,13 @@ Route::middleware(['auth', RoleMiddleware::class . ':medecin'])->group(function 
     Route::get('/medecin', [MedecinController::class, 'index']);
 });
 Route::middleware(['auth', RoleMiddleware::class . ':patient'])->group(function () {
-    Route::resource ('/patient', PatientController::class);
-    Route::resource('/reservation',ReservationController::class);
-    Route::get('/Favoris',[PatientController::class,'showFavoris'])->name('favoris');
-    Route::get('/doctor',[PatientController::class,'showDoctor'])->name('doctor');
+    Route::resource('/patient', PatientController::class);
+    Route::resource('/reservation', ReservationController::class);
+    Route::get('/Favoris', [PatientController::class, 'showFavoris'])->name('favoris');
+    Route::get('/doctor', [PatientController::class, 'showDoctor'])->name('doctor');
+    Route::resource('/commentaire', CommeantaireController::class);
 
-    // Route::get('/patient/filtrer', [ReservationController::class, 'filtrer'])->name('filtrer.specialite');
+    Route::get('/filtrer', [ReservationController::class, 'filtrer'])->name('filtrer.specialite');
 });
 
 Route::middleware(['auth', RoleMiddleware::class . ':admin'])->group(function () {
@@ -57,15 +59,15 @@ Route::get('/', function () {
 
         return redirect('/login');
 
-    switch(auth()->user()->role){
+    switch (auth()->user()->role) {
         case 'admin':
-            return  redirect('/admin');
+            return redirect('/admin');
         case 'patient':
-            return     redirect('/patient');
+            return redirect('/patient');
         case 'medecin':
-            return   redirect('/medecin');
+            return redirect('/medecin');
         default:
-            return  redirect('/login');
+            return redirect('/login');
     }
 
 });

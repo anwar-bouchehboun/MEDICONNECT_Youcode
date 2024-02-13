@@ -5,7 +5,9 @@
             <div>
                 <img src="https://readymadeui.com/profile_2.webp" class="w-28 h-28 rounded-full shadow-[0_2px_22px_-4px_rgba(93,96,127,0.6)] border-2 border-white" />
                 <div class="mt-4">
-                    <h4 class="text-sm font-extrabold ms-4">{{ $medecin->name }}</h4>
+                    <h4 class="text-sm font-extrabold ms-4">{{ $medecin->name }} ,  {{Ceil($averageRating)  }} <span class="text-2xl text-red-700 cursor-pointer">&hearts;</span></h4>
+
+
                     <p class="mt-1 text-xs font-bold text-gray-400 ms-4">{{ $medecin->genre }}</p>
 
                 </div>
@@ -17,6 +19,7 @@
                     <button type="submit" class="px-5 py-1 mx-3 my-3 mt-2 text-white bg-teal-500 rounded w-60">Ajouter Favoris</button>
 
             </form>
+
             @if ($errors->any())
             <div class="relative px-4 py-3 text-red-700 bg-red-100 border border-red-400 rounded" role="alert">
                 <strong class="font-bold">Erreur!</strong>
@@ -30,10 +33,12 @@
                 <span class="block sm:inline">{{ session('success') }}</span>
             </div>
         @endif
-            <form action="">
+            <form action="{{ route('commentaire.store') }}" method="POST">
+                @csrf
+                <input type="text" name="medecin_id" id="medecin" value="{{ $medecin->id }}" readonly class="hidden px-3 py-2 border rounded-md w-60 focus:outline-none focus:border-blue-500">
                 <label for="message" class="block mt-4 mb-2 text-sm font-medium text-gray-900 dark:text-white ms-2">Votre message</label>
-                <textarea id="message" rows="4" class="block p-2.5 w-80 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 placeholder-gray-400" placeholder="Écrivez vos pensées ici..."></textarea>
-                <button class="py-1 mt-3 text-white bg-red-600 rounded w-60">Ajouter un commentaire</button>
+                <textarea id="message" name="contenu" rows="4" class="block p-2.5 w-80 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 placeholder-gray-400" placeholder="Écrivez vos pensées ici..."></textarea>
+                <button type="submit" class="py-1 mt-3 text-white bg-red-600 rounded w-60">Ajouter un commentaire</button>
                 <div class="flex items-center mt-4">
                     <label for="rating" class="block mr-2 text-sm font-medium text-gray-700">Note :</label>
                     <div class="flex">
@@ -54,8 +59,19 @@
             </div>
             <div class="ps-5">
                 <h3 class="text-3xl uppercase">Commentaires :</h3>
-                <p>Nom : azertyui</p>
-                <p>Nom : sdfgh</p>
+                @if(isset($commentaires) && $commentaires->isNotEmpty())
+                @foreach ($commentaires as $item)
+                <div class="p-4 mb-4 bg-gray-100 border border-gray-200">
+                    <p class="mb-2">{{ $item->patient->name }} : {{ $item->contenu }}</p>
+                    {{-- <span class="text-gray-600"><em class="text-xl text-red-500">Like :</em> {{ $item->rating }}</span> --}}
+                </div>
+
+
+                @endforeach
+            @else
+                <p>Aucun commentaire trouvé.</p>
+            @endif
+
             </div>
         </div>
 

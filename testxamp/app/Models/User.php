@@ -64,4 +64,22 @@ public function favorisEnTantQueMedecin()
 {
     return $this->hasMany(Favorie::class, 'medecin_id');
 }
+public function commentairesEnTantQuePatient()
+{
+    return $this->hasMany(Commentaire::class, 'patient_id');
+}
+
+public function commentairesEnTantQueMedecin()
+{
+    return $this->hasMany(Commentaire::class, 'medecin_id');
+}
+public function Certificatpatient()
+{
+    return $this->hasMany(Certificat::class, 'patient_id');
+}
+
+public function Certificatmedecin()
+{
+    return $this->hasMany(Certificat::class, 'medecin_id');
+}
 }
