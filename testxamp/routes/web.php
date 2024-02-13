@@ -43,7 +43,7 @@ Route::middleware(['auth', RoleMiddleware::class . ':patient'])->group(function 
     Route::get('/Favoris', [PatientController::class, 'showFavoris'])->name('favoris');
     Route::get('/doctor', [PatientController::class, 'showDoctor'])->name('doctor');
     Route::resource('/commentaire', CommeantaireController::class);
-
+    Route::get('/imprimer/{id}', [PatientController::class, 'showCerficat'])->name('certaficat');
     Route::get('/filtrer', [ReservationController::class, 'filtrer'])->name('filtrer.specialite');
 });
 

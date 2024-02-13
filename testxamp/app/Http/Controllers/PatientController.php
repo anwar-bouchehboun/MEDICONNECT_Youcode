@@ -61,4 +61,9 @@ class PatientController extends Controller
         return view('patient.favoris',compact('favories'));
 
     }
+    public function showCerficat($id){
+        $patientId = Auth::id();
+        $Certaficat=Certificat::where('patient_id', $patientId)->get();
+      return view('patient.showCertaficat',compact('Certaficat'));
+    }
 }

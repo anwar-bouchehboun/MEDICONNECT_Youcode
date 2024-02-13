@@ -73,7 +73,7 @@ public function commentairesEnTantQueMedecin()
 {
     return $this->hasMany(Commentaire::class, 'medecin_id');
 }
-public function Certificatpatient()
+public function certificats()
 {
     return $this->hasMany(Certificat::class, 'patient_id');
 }
