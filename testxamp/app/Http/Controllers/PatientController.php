@@ -13,9 +13,14 @@ class PatientController extends Controller
     public function index(){
 
 
-$medecins = User::where('role', 'medecin')->get();
+// $medecins = User::where('role', 'medecin')->get();
 
-        return view('patient.Dashbord',compact('medecins'));
+        return view('patient.Dashbord');
+    }
+    public function showDoctor(){
+        $medecins = User::where('role', 'medecin')->get();
+
+        return view('patient.listeDoctor',compact('medecins'));
     }
     public function show( $user)
     {
@@ -51,5 +56,10 @@ $medecins = User::where('role', 'medecin')->get();
         }
     }
 
+    public function showFavoris(){
+        $patientId = Auth::id();
+        $favories = Favorie::where('patient_id', $patientId)->get();
+        return view('patient.favoris',compact('favories'));
 
+    }
 }

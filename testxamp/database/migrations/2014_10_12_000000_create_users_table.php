@@ -38,9 +38,6 @@ return new class extends Migration
     {
         Schema::dropIfExists('users');
     }
-    public function specialite()
-{
-    return $this->belongsTo(Specialite::class, 'specialite_id');
-}
+
 
 };

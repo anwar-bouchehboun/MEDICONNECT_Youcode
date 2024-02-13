@@ -60,5 +60,8 @@ public function reservations()
 {
     return $this->hasMany(Reservation::class,'medecin_id');
 }
-
+public function favorisEnTantQueMedecin()
+{
+    return $this->hasMany(Favorie::class, 'medecin_id');
+}
 }

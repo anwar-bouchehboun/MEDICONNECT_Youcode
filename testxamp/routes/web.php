@@ -39,6 +39,9 @@ Route::middleware(['auth', RoleMiddleware::class . ':medecin'])->group(function 
 Route::middleware(['auth', RoleMiddleware::class . ':patient'])->group(function () {
     Route::resource ('/patient', PatientController::class);
     Route::resource('/reservation',ReservationController::class);
+    Route::get('/Favoris',[PatientController::class,'showFavoris'])->name('favoris');
+    Route::get('/doctor',[PatientController::class,'showDoctor'])->name('doctor');
+
     // Route::get('/patient/filtrer', [ReservationController::class, 'filtrer'])->name('filtrer.specialite');
 });
 

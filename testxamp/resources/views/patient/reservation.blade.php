@@ -6,6 +6,11 @@
                 <h2 class="text-4xl font-semibold text-gray-700 uppercase ms-2">Reservation</h2>
             </div>
             <div class="ps-80">
+                @if(session('success'))
+                <div class="relative px-4 py-3 mt-2 text-green-700 bg-green-100 border border-green-400 rounded" role="alert">
+                    <span class="block sm:inline">{{ session('success') }}</span>
+                </div>
+                @endif
                 <h3 class="text-3xl "><strong class="text-4xl "> DOCTOR : </strong>{{ $medecin->name }}</h3>
                 <form action="{{ route('reservation.store') }}" method="post" class="p-6">
                     @csrf
