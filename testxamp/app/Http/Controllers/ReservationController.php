@@ -180,36 +180,53 @@ class ReservationController extends Controller
 
         $currentTime = Carbon::now();
         $heureCarbon = Carbon::parse($currentTime);
+        // dd($heureCarbon);
         $heureDebut = $heureCarbon->format('H') . 'h';
-        $heureFin = $heureCarbon->addHour()->format('H') . 'h'; 
+        dd($heureDebut);
+        $heureFin = $heureCarbon->addHour()->format('H') . 'h';
 
         $plageHoraire = $heureDebut . '-' . $heureFin;
 
-        $specialiteName = 'Médecine d\'urgence';
+         $specialiteName = 'Médecine d\'urgence';
 
-        $doctors = Specialite::select('specialites.specialite', 'users.name')
+        $doctors = Specialite::select('specialites.specialite','users.id')
             ->join('users', 'specialites.id', '=', 'users.specialite_id')
             ->where('users.role', 'medecin')
             ->where('specialites.specialite', $specialiteName)
-            ->groupBy('specialites.specialite', 'users.name')
+            ->groupBy('specialites.specialite','users.id')
             ->get();
 
-        $availableDoctors = [];
-foreach ($doctors as $doctor) {
-    $reservations = Reservation::where('medecin_id', $doctor->id)
-                                ->where('time', $plageHoraire)
-                                ->where('check', 0)
-                                ->count();
-    if ($reservations == 0) {
-        dd($doctor);
-        $availableDoctors[] = $doctor;
-    }}
+            $doctorIds = $doctors->pluck('id');
+
+
+
+
+            foreach ($doctorIds as $doctorId) {
+                $existingReservations = Reservation::where('medecin_id', $doctorId)
+                    ->where('time', $plageHoraire)
+                    ->count();
+
+                if ($existingReservations === 0) { // Vérifiez s'il n'y a pas de réservation existante pour ce médecin et cette heure
+                    $r = Reservation::create([
+                        'patient_id' => Auth::id(),
+                        'medecin_id' => $doctorId,
+                        'date' => now(),
+                        'time' => $plageHoraire,
+                    ]);
+                    dd($r); // Sortie pour déboguer
+                }
+            }
+
+
+        // $availableDoctors[] = $doctor;
+
+
         //   $reserve=  Reservation::where('time',$plageHoraire)->get();
 
 
 
-         $time=$request->input('time');
-         dd($time);
+        //  $time=$request->input('time');
+        //  dd($time);
 
     }
 }
