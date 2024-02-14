@@ -45,6 +45,7 @@ Route::middleware(['auth', RoleMiddleware::class . ':patient'])->group(function 
     Route::resource('/commentaire', CommeantaireController::class);
     Route::get('/imprimer/{id}', [PatientController::class, 'showCerficat'])->name('certaficat');
     Route::get('/filtrer', [ReservationController::class, 'filtrer'])->name('filtrer.specialite');
+    Route::post('/reserve', [ReservationController::class, 'reserveurgence'])->name('urgence.reservation');
 });
 
 Route::middleware(['auth', RoleMiddleware::class . ':admin'])->group(function () {

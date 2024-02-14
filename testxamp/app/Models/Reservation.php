@@ -13,7 +13,9 @@ class Reservation extends Model
      'patient_id',
      'medecin_id',
      'date',
-     'status'
+     'status',
+     'time',
+     'check'
 
     ];
 
