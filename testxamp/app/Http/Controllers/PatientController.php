@@ -75,6 +75,7 @@ class PatientController extends Controller
 
         // dd($Certaficat);
         $pdf=PDF::loadView('patient.showCertaficat',compact('Certaficat'));
-        return view('patient.showCertaficat', compact('Certaficat'));
+        return $pdf->download('showCertaficat.pdf');
+        // return view('patient.showCertaficat', compact('Certaficat'));
     }
 }

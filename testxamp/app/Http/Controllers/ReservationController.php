@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Certificat;
 use DateTime;
 use Carbon\Carbon;
 use App\Models\User;
@@ -85,12 +86,14 @@ class ReservationController extends Controller
 
 
     public function show($user)
-    {
+    {    //array medecin
         $medecin = User::findOrFail($user);
         $averageRating = $this->calculerRatingMedecin($user);
         $commentaires = Commentaire::where('medecin_id', $medecin->id)->get();
+        $certafica=Certificat::where('patient_id',Auth::id())
+        ->where('medecin_id',$medecin->id)->count();
 
-        return view('patient.show', compact('medecin', 'commentaires', 'averageRating'));
+        return view('patient.show', compact('medecin', 'commentaires', 'averageRating','certafica'));
     }
 
 
