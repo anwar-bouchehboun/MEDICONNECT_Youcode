@@ -42,29 +42,29 @@
                 <h2 class="mb-4 text-lg font-semibold">Tableau de réservation</h2>
                 <div id="reservationSlots" class="flex gap-2">
                   <div class="p-4 bg-white rounded-md shadow-md">
-                    <p class="mb-2 text-lg font-semibold">9h-10h</p>
+                    <p class="mb-2 text-lg font-semibold">9h00-10h00</p>
                     <button data-time="9h-10h" class="px-4 py-2 font-bold text-white bg-blue-500 rounded reserveButton hover:bg-blue-700 focus:outline-none focus:shadow-outline">Réserver</button>
                   </div>
                   <div class="p-4 bg-white rounded-md shadow-md">
-                    <p class="mb-2 text-lg font-semibold">10h-11h</p>
+                    <p class="mb-2 text-lg font-semibold">10h00-11h00</p>
                     <button data-time="10h-11h" class="px-4 py-2 font-bold text-white bg-blue-500 rounded reserveButton hover:bg-blue-700 focus:outline-none focus:shadow-outline">Réserver</button>
                   </div>
 
 
                   <div class="p-4 bg-white rounded-md shadow-md">
-                    <p class="mb-2 text-lg font-semibold">11h-12h</p>
+                    <p class="mb-2 text-lg font-semibold">11h00-12h00</p>
                     <button data-time="11h-12h" class="px-4 py-2 font-bold text-white bg-blue-500 rounded reserveButton hover:bg-blue-700 focus:outline-none focus:shadow-outline">Réserver</button>
                   </div>
                   <div class="p-4 bg-white rounded-md shadow-md">
-                    <p class="mb-2 text-lg font-semibold">14h-15h</p>
+                    <p class="mb-2 text-lg font-semibold">14h00-15h00</p>
                     <button data-time="14h-15h" class="px-4 py-2 font-bold text-white bg-blue-500 rounded reserveButton hover:bg-blue-700 focus:outline-none focus:shadow-outline">Réserver</button>
                   </div>
                   <div class="p-4 bg-white rounded-md shadow-md">
-                    <p class="mb-2 text-lg font-semibold">15h-16h</p>
+                    <p class="mb-2 text-lg font-semibold">15h00-16h00</p>
                     <button data-time="15h-16h" class="px-4 py-2 font-bold text-white bg-blue-500 rounded reserveButton hover:bg-blue-700 focus:outline-none focus:shadow-outline">Réserver</button>
                   </div>
                   <div class="p-4 bg-white rounded-md shadow-md">
-                    <p class="mb-2 text-lg font-semibold">16h-17h</p>
+                    <p class="mb-2 text-lg font-semibold">16h00-17h00</p>
                     <button data-time="16h-17h" class="px-4 py-2 font-bold text-white bg-blue-500 rounded reserveButton hover:bg-blue-700 focus:outline-none focus:shadow-outline">Réserver</button>
                   </div>
                 </div>

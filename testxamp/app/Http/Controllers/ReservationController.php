@@ -41,7 +41,7 @@ class ReservationController extends Controller
 
 
         $request->validate([
-             'date' => 'required|date',
+            //  'date' => 'required|date',
             // 'status' => 'required',
             'time' => 'required',
             'medecin_id' => 'required',
@@ -62,7 +62,7 @@ class ReservationController extends Controller
             'medecin_id' => $request->medecin_id,
             'time' => $request->time,
             'check' => $request->check,
-            'date'=>now()
+            'date' => now()
         ]);
 
 
@@ -90,10 +90,10 @@ class ReservationController extends Controller
         $medecin = User::findOrFail($user);
         $averageRating = $this->calculerRatingMedecin($user);
         $commentaires = Commentaire::where('medecin_id', $medecin->id)->get();
-        $certafica=Certificat::where('patient_id',Auth::id())
-        ->where('medecin_id',$medecin->id)->count();
+        $certafica = Certificat::where('patient_id', Auth::id())
+            ->where('medecin_id', $medecin->id)->count();
 
-        return view('patient.show', compact('medecin', 'commentaires', 'averageRating','certafica'));
+        return view('patient.show', compact('medecin', 'commentaires', 'averageRating', 'certafica'));
     }
 
 
@@ -179,5 +179,64 @@ class ReservationController extends Controller
             return redirect()->back()->with('error', 'All reservations are complete for today.');
         }
     }
+    // --------------------------
+//     public function reserveurgence(Request $request)
+// {
+//     $request->validate([
+//         'check' => 'required'
+//     ]);
+
+//         // Define the start and end times for the reservation period
+//     $startTime = Carbon::createFromTime(9, 0, 0); // 9 am
+//     $endTime = Carbon::createFromTime(17, 0, 0);  // 5 pm
+
+//         // Initialize a flag to track if any reservations are available
+//     $allReservationsComplete = true;
+
+//         // Iterate through each hour within the reservation period
+//     while ($startTime <= $endTime) {
+//         $heureDebut = $startTime->format('H\h');
+//         $heureFin = $startTime->addHour()->format('H\h');
+//         $plageHoraire = $heureDebut . '-' . $heureFin;
+
+//             // Fetch available doctors for the current time slot
+//         $doctors = Specialite::select('specialites.specialite', 'users.id')
+//             ->join('users', 'specialites.id', '=', 'users.specialite_id')
+//             ->where('users.role', 'medecin')
+//             ->where('specialites.specialite', 'Médecine d\'urgence')
+//             ->groupBy('specialites.specialite', 'users.id')
+//             ->get();
+
+//             // Check availability for each doctor
+//         foreach ($doctors as $doctor) {
+//             $existingReservations = Reservation::where('medecin_id', $doctor->id)
+//                 ->where('time', $plageHoraire)
+//                 ->count();
+
+//                 // If the doctor is available, create a reservation
+//             if ($existingReservations === 0) {
+//                 $allReservationsComplete = false;
+//                 $r = Reservation::create([
+//                     'patient_id' => Auth::id(),
+//                     'medecin_id' => $doctor->id,
+//                     'date' => now(),
+//                     'time' => $plageHoraire,
+//                     'check' => $request->check
+//                 ]);
+//                 return redirect()->back()->with('success', 'You have successfully added a reservation for ' . $plageHoraire);
+//             }
+//         }
+//     }
+
+//         // If all reservations are complete for the day, return an error message
+//     if ($allReservationsComplete) {
+//         return redirect()->back()->with('error', 'All reservations are complete for today.');
+//     }
+// }
+
+
+
+
+
 
 }
