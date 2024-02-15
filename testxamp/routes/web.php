@@ -35,7 +35,13 @@ use App\Http\Controllers\ReservationController;
 // });
 
 Route::middleware(['auth', RoleMiddleware::class . ':medecin'])->group(function () {
-    Route::get('/medecin', [MedecinController::class, 'index']);
+    Route::get('/medecin', [MedecinController::class, 'index'])->name('medecin.index');
+    // Route::resource('/medicament', MedicamentController::class);
+    Route::get ('/ReservationPatien',[MedecinController::class,'ReservationPatient'])->name('Reserve');
+    Route::resource('/consultion', MedecinController::class);
+    // Route::get('/consultion', [MedecinController::class,'show'])->name('show');
+    // Route::get('/certfic/{con}', [MedecinController::class,'persone'])->name('persone');
+
 });
 Route::middleware(['auth', RoleMiddleware::class . ':patient'])->group(function () {
     Route::resource('/patient', PatientController::class);
@@ -51,6 +57,9 @@ Route::middleware(['auth', RoleMiddleware::class . ':patient'])->group(function 
 Route::middleware(['auth', RoleMiddleware::class . ':admin'])->group(function () {
     Route::get('/admin', [AdminController::class, 'index'])->name('admin');
     Route::resource('/specialite', SpecialiteController::class);
+
+});
+Route::middleware(['auth', 'role:medecin,admin'])->group(function () {
     Route::resource('/medicament', MedicamentController::class);
 });
 

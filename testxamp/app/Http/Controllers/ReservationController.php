@@ -40,7 +40,7 @@ class ReservationController extends Controller
 
 
         $request->validate([
-            // 'date' => 'required|date',
+             'date' => 'required|date',
             // 'status' => 'required',
             'time' => 'required',
             'medecin_id' => 'required',
@@ -61,75 +61,9 @@ class ReservationController extends Controller
             'medecin_id' => $request->medecin_id,
             'time' => $request->time,
             'check' => $request->check,
+            'date'=>now()
         ]);
 
-
-
-        // $providedDateTime = Carbon::parse($request->date);
-        // $heure = $providedDateTime->format('H');
-
-        // $currentDateTime = Carbon::now();
-
-        // if ($providedDateTime->lte($currentDateTime)) {
-        //     return redirect()->back()->withErrors(['date' => 'Please choose a date and time in the future.']);
-        // }
-
-
-
-
-        // if ($request->status === 'urgence') {
-        //     // Find a doctor available for emergency
-        //     $medecinDisponible = User::select('users.*')
-        //         ->join('specialites', 'users.specialite_id', '=', 'specialites.id')
-        //         ->leftJoin('reservations', function ($join) use ($request) {
-        //             $join->on('users.id', '=', 'reservations.medecin_id')
-        //                 ->where('reservations.date', $request->date);
-        //         })
-        //         ->whereNull('reservations.medecin_id')
-        //         ->where('users.role', 'medecin')
-        //         ->where('specialites.specialite', "Médecine d'urgence")
-        //         ->first();
-
-        //     if (!$medecinDisponible) {
-        //         return back()->withInput()->withErrors(['date' => 'No doctor available for this date and specialty. Please choose another date.']);
-        //     }
-
-
-        //     // Assign the available doctor for emergency
-        //     $medecinId = $medecinDisponible->id;
-        // } else {
-        //     $request->validate([
-        //         'medecin_id' => 'required',
-        //     ]);
-        //     $oneHourBefore = $providedDateTime;
-        //     $oneHourAfter = $providedDateTime->subHour();
-
-        //     $reservationsWithinRange = Reservation::whereBetween('date', [$oneHourBefore, $oneHourAfter])
-        //         ->where('medecin_id', $request->medecin_id)
-        //         ->exists();
-
-
-        //     if ($reservationsWithinRange) {
-        //         return back()->withInput()->withErrors(['date' => 'There is already a reservation within one hours of this time.']);
-        //     }
-        //     $medecinId = $request->medecin_id;
-
-        //     $existingReservation = Reservation::where('medecin_id', $medecinId)
-        //         ->where('date', $request->date)
-        //         ->exists();
-
-        //     if ($existingReservation) {
-        //         return back()->withInput()->withErrors(['date' => 'A reservation for this date already exists for this doctor. Please choose a different date or doctor.']);
-        //     }
-        // }
-
-        // If all validations pass, create the reservation
-        // $reservation = Reservation::create([
-        //     'patient_id' => Auth::id(),
-        //     'medecin_id' => $medecinId,
-        //     'date' => $providedDateTime,
-        //     'status' => $request->status,
-        // ]);
 
         return redirect()->back()->with('success', 'You have successfully added a reservation.');
     }
@@ -177,56 +111,70 @@ class ReservationController extends Controller
 
     public function reserveurgence(Request $request)
     {
+        $request->validate([
+            'check' => 'required'
+        ]);
 
         $currentTime = Carbon::now();
-        $heureCarbon = Carbon::parse($currentTime);
-        // dd($heureCarbon);
-        $heureDebut = $heureCarbon->format('H') . 'h';
-        dd($heureDebut);
-        $heureFin = $heureCarbon->addHour()->format('H') . 'h';
-
+        $heureDebut = $currentTime->format('H') . 'h';
+        $heureFin = $currentTime->addHour()->format('H') . 'h';
         $plageHoraire = $heureDebut . '-' . $heureFin;
 
-         $specialiteName = 'Médecine d\'urgence';
+        $specialiteName = 'Médecine d\'urgence';
 
-        $doctors = Specialite::select('specialites.specialite','users.id')
+        $doctors = Specialite::select('specialites.specialite', 'users.id')
             ->join('users', 'specialites.id', '=', 'users.specialite_id')
             ->where('users.role', 'medecin')
             ->where('specialites.specialite', $specialiteName)
-            ->groupBy('specialites.specialite','users.id')
+            ->groupBy('specialites.specialite', 'users.id')
             ->get();
+            $allReservationsComplete = true;
+        foreach ($doctors as $doctor) {
+            $existingReservations = Reservation::where('medecin_id', $doctor->id)
+                ->where('time', $plageHoraire)
+                ->count();
 
-            $doctorIds = $doctors->pluck('id');
+            if ($existingReservations === 0) {
+                $allReservationsComplete = false;
+                $r = Reservation::create([
+                    'patient_id' => Auth::id(),
+                    'medecin_id' => $doctor->id,
+                    'date' => now(),
+                    'time' => $plageHoraire,
+                    'check' => $request->check
+                ]);
+                return redirect()->back()->with('success', 'You have successfully added a reservation sur palace');
 
-
-
-
-            foreach ($doctorIds as $doctorId) {
-                $existingReservations = Reservation::where('medecin_id', $doctorId)
-                    ->where('time', $plageHoraire)
-                    ->count();
-
-                if ($existingReservations === 0) { // Vérifiez s'il n'y a pas de réservation existante pour ce médecin et cette heure
-                    $r = Reservation::create([
-                        'patient_id' => Auth::id(),
-                        'medecin_id' => $doctorId,
-                        'date' => now(),
-                        'time' => $plageHoraire,
-                    ]);
-                    dd($r); // Sortie pour déboguer
-                }
             }
+        }
 
+        // Si aucun médecin n'est disponible à l'heure demandée, essayez l'heure suivante
+        $currentTime = now()->addHour();
+        $heureDebut = $currentTime->format('H') . 'h';
+        $heureFin = $currentTime->addHour()->format('H') . 'h';
+        $plageHoraire = $heureDebut . '-' . $heureFin;
 
-        // $availableDoctors[] = $doctor;
+        // Répétez le processus pour les médecins disponibles à cette heure
+        foreach ($doctors as $doctor) {
+            $existingReservations = Reservation::where('medecin_id', $doctor->id)
+                ->where('time', $plageHoraire)
+                ->count();
 
-
-        //   $reserve=  Reservation::where('time',$plageHoraire)->get();
-
-
-
-        //  $time=$request->input('time');
-        //  dd($time);
-
+            if ($existingReservations === 0) {
+                $allReservationsComplete = false;
+                $r = Reservation::create([
+                    'patient_id' => Auth::id(),
+                    'medecin_id' => $doctor->id,
+                    'date' => now(),
+                    'time' => $plageHoraire,
+                    'check' => $request->check
+                ]);
+                return redirect()->back()->with('success', 'You have successfully added a reservation plus 1h ');
+            }
+        }
+        if ($allReservationsComplete) {
+            return redirect()->back()->with('error', 'All reservations are complete for today.');
+        }
     }
+
 }

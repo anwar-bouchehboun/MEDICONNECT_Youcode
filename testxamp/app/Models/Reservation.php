@@ -18,5 +18,14 @@ class Reservation extends Model
      'check'
 
     ];
+    public function patient()
+    {
+        return $this->belongsTo(User::class, 'patient_id');
+    }
+
+    public function medecin()
+    {
+        return $this->belongsTo(User::class, 'medecin_id');
+    }
 
 }

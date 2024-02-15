@@ -59,6 +59,27 @@
         </button>
     </form>
     @endif
+    @if (Auth::user()->role == 'medecin')
+    <a href="{{ route('medecin.index') }}" class="flex items-center py-4 pl-6 mb-3 text-white active-nav-link nav-item">
+        Dashboard
+    </a>
+    <a href="{{ route('medicament.index') }}" class="flex items-center py-4 pl-6 mb-3 text-white active-nav-link nav-item">
+        Medicament
+     </a>
+     <a href="{{ route('Reserve') }}" class="flex items-center py-4 pl-6 mb-3 text-white active-nav-link nav-item">
+        Reservation Patient
+    </a>
+    <a href="{{ route('profile.edit') }}" class="flex items-center py-4 pl-6 mb-3 text-white active-nav-link nav-item">
+        Profile
+    </a>
+
+    <form action="{{ route('logout') }}" method="POST" class="inline-block ml-7">
+        @csrf
+        <button type="submit" class="px-12 py-2 text-white bg-red-500 rounded hover:bg-red-600">
+            Log Out
+        </button>
+    </form>
+    @endif
 
 
 

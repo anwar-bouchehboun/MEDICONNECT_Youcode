@@ -8,27 +8,31 @@ use App\Models\Favorie;
 use App\Models\Specialite;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class PatientController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $patientId = Auth::id();
-      $Certaficat=Certificat::where('patient_id', $patientId)->get();
+        $Certaficat = Certificat::where('patient_id', $patientId)->get();
 
-        return view('patient.Dashbord',compact('Certaficat'));
+        return view('patient.Dashbord', compact('Certaficat'));
     }
-    public function showDoctor(){
+    public function showDoctor()
+    {
         $medecins = User::where('role', 'medecin')->get();
         $specialite = Specialite::all();
-        return view('patient.listeDoctor',compact('medecins','specialite'));
+        return view('patient.listeDoctor', compact('medecins', 'specialite'));
     }
-    public function show( $user)
+    public function show($user)
     {
         $medecin = User::findOrFail($user);
 
-    return view('patient.reservation',compact('medecin'));
+        return view('patient.reservation', compact('medecin'));
     }
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         // Validation des données de la requête
         $request->validate([
             'medecin_id' => 'required'
@@ -36,8 +40,8 @@ class PatientController extends Controller
 
         // Vérifier si le médecin est déjà favori pour ce patient
         $isFavorite = Favorie::where('patient_id', Auth::id())
-                             ->where('medecin_id', $request->medecin_id)
-                             ->exists();
+            ->where('medecin_id', $request->medecin_id)
+            ->exists();
 
         if (!$isFavorite) {
             // Ajouter le médecin aux favoris du patient
@@ -55,15 +59,22 @@ class PatientController extends Controller
         }
     }
 
-    public function showFavoris(){
+    public function showFavoris()
+    {
         $patientId = Auth::id();
         $favories = Favorie::where('patient_id', $patientId)->get();
-        return view('patient.favoris',compact('favories'));
+        return view('patient.favoris', compact('favories'));
 
     }
-    public function showCerficat($id){
+    public function showCerficat($id)
+    {
         $patientId = Auth::id();
-        $Certaficat=Certificat::where('patient_id', $patientId)->get();
-      return view('patient.showCertaficat',compact('Certaficat'));
+        $Certaficat = Certificat::where('patient_id', $patientId)
+            ->where('id', $id)
+            ->get();
+
+        // dd($Certaficat);
+        $pdf=PDF::loadView('patient.showCertaficat',compact('Certaficat'));
+        return view('patient.showCertaficat', compact('Certaficat'));
     }
 }

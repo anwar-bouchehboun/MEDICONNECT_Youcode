@@ -58,21 +58,27 @@
             </form>
             </div>
             <div class="ps-5">
-                <h3 class="text-3xl uppercase">Commentaires :</h3>
+                <h3 class="mb-4 text-2xl uppercase">Commentaires :</h3>
                 @if(isset($commentaires) && $commentaires->isNotEmpty())
-                @foreach ($commentaires as $item)
-                <div class="p-4 mb-4 bg-gray-100 border border-gray-200">
-                    <p class="mb-2">{{ $item->patient->name }} : {{ $item->contenu }}</p>
-                    {{-- <span class="text-gray-600"><em class="text-xl text-red-500">Like :</em> {{ $item->rating }}</span> --}}
-                </div>
-
-
-                @endforeach
-            @else
-                <p>Aucun commentaire trouvé.</p>
-            @endif
-
+                    @foreach ($commentaires as $item)
+                        <div class="mb-4">
+                            <div class="overflow-hidden bg-white rounded-lg shadow-lg">
+                                <div class="p-4">
+                                    <p class="mb-2 font-bold">{{ $item->patient->name }} :</p>
+                                    <p>{{ $item->contenu }}</p>
+                                </div>
+                                {{-- Ajoutez cette partie si vous souhaitez afficher le nombre de likes --}}
+                                {{-- <div class="px-4 py-2 bg-gray-100 border-t border-gray-200">
+                                    <span class="text-gray-600"><em class="text-xl text-red-500">Like :</em> {{ $item->rating }}</span>
+                                </div> --}}
+                            </div>
+                        </div>
+                    @endforeach
+                @else
+                    <p>Aucun commentaire trouvé.</p>
+                @endif
             </div>
+
         </div>
 
 
