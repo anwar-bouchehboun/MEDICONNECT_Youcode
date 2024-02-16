@@ -14,9 +14,9 @@ class RoleMiddleware
             return redirect('/login');
         }
 
-        if (!Auth::user()->hasRole($role)) {
-            abort(403, 'Unauthorized action.');
-        }
+        // if (!Auth::user()->hasRole($role)) {
+        //     abort(404, 'NOT FOUND.');
+        // }
 
         return $next($request);
     }

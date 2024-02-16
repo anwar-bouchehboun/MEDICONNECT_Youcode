@@ -36,7 +36,7 @@ use App\Http\Controllers\ReservationController;
 
 Route::middleware(['auth', RoleMiddleware::class . ':medecin'])->group(function () {
     Route::get('/medecin', [MedecinController::class, 'index'])->name('medecin.index');
-    // Route::resource('/medicament', MedicamentController::class);
+    Route::resource('/medicament', MedicamentController::class);
     Route::get ('/ReservationPatien',[MedecinController::class,'ReservationPatient'])->name('Reserve');
     Route::resource('/consultion', MedecinController::class);
      Route::get('/consultion', [MedecinController::class,'show'])->name('show');
@@ -61,6 +61,13 @@ Route::middleware(['auth', RoleMiddleware::class . ':admin'])->group(function ()
 
 
 });
+// Route::middleware(['role:admin'])->group(function () {
+//     Route::resource('/medicament', MedicamentController::class);
+// });
+
+// Route::middleware(['role:medecin'])->group(function () {
+//     Route::resource('/medicament', MedicamentController::class);
+// });
 // Route::middleware(['auth', 'role:medecin,admin'])->group(function () {
 //     Route::resource('/medicament', MedicamentController::class);
 // });
