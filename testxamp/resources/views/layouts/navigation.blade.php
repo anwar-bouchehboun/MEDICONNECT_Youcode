@@ -1,13 +1,13 @@
-<nav x-data="{ open: false }" class="border-b bg-slate-500">
+<nav x-data="{ open: false }" class="border-b bg-cyan-500">
     <!-- Primary Navigation Menu -->
     <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="flex">
                 <!-- Logo -->
                 <div class="flex items-center shrink-0">
-                    <a href="#">
+                    
                         <img src="/storage/images/logo.png" alt="logo" class="w-20 mx-auto" />
-                    </a>
+
                 </div>
 
                 <!-- Navigation Links -->

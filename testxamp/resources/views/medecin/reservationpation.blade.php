@@ -5,7 +5,7 @@
       <div>
         <h1 class="text-4xl font-semibold text-gray-700 uppercase ms-2 ">Reservation </h1>
         <div class="mx-8 my-3 overflow-x-auto">
-             @foreach ($reserve as $item)
+
                 <div class="overflow-x-auto">
                     <table class="min-w-full bg-white font-[sans-serif]">
                       <thead class="bg-gray-100 whitespace-nowrap">
@@ -22,6 +22,7 @@
                         </tr>
                       </thead>
                       <tbody class="whitespace-nowrap">
+                        @foreach ($reserve as $item)
                         <tr class="hover:bg-gray-50">
                           <td class="px-6 py-4 text-base">
                         {{ $item->patient->name}}
