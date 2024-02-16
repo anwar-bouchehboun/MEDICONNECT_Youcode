@@ -14,8 +14,10 @@ return new class extends Migration
         Schema::create('medicaments', function (Blueprint $table) {
             $table->id();
             $table->string('medicament');
-            $table->foreignid('specialite_id')->constrained('specialites');
+            $table->foreignid('specialite_id')->constrained('specialites')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
+            $table->softDeletes();
+
         });
     }
 

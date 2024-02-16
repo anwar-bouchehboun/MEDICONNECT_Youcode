@@ -11,12 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('specialites', function (Blueprint $table) {
+        Schema::create('favories', function (Blueprint $table) {
             $table->id();
-            $table->string('specialite');
+            $table->foreignid('patient_id')->constrained('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignid('medecin_id')->constrained('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->unique(['patient_id', 'medecin_id']);
             $table->timestamps();
-            $table->softDeletes();
         });
+  
     }
 
     /**
@@ -24,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('specialites');
+        Schema::dropIfExists('favories');
     }
 };

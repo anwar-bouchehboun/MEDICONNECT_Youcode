@@ -1,8 +1,9 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
+use App\Models\Specialite;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {
@@ -24,8 +25,8 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
-             $table->foreignid('specialite_id')->constrained('specialites');
-
+             $table->foreignid('specialite_id')->constrained('specialites')->nullable();
+             $table->softDeletes();
         });
 
     }
@@ -37,4 +38,6 @@ return new class extends Migration
     {
         Schema::dropIfExists('users');
     }
+
+
 };

@@ -1,13 +1,15 @@
 <?php
 
-use App\Http\Controllers\MedicamentController;
-use App\Http\Controllers\SpecialiteController;
+use App\Http\Controllers\CommeantaireController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\RoleMiddleware;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\MedecinController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\MedicamentController;
+use App\Http\Controllers\SpecialiteController;
+use App\Http\Controllers\ReservationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,17 +35,42 @@ use App\Http\Controllers\ProfileController;
 // });
 
 Route::middleware(['auth', RoleMiddleware::class . ':medecin'])->group(function () {
-    Route::get('/medecin', [MedecinController::class, 'index']);
+    Route::get('/medecin', [MedecinController::class, 'index'])->name('medecin.index');
+    Route::resource('/medicament', MedicamentController::class);
+    Route::get ('/ReservationPatien',[MedecinController::class,'ReservationPatient'])->name('Reserve');
+    Route::resource('/consultion', MedecinController::class);
+     Route::get('/consultion', [MedecinController::class,'show'])->name('show');
+    Route::get('/certfic/{con}', [MedecinController::class,'persone'])->name('persone');
+
 });
 Route::middleware(['auth', RoleMiddleware::class . ':patient'])->group(function () {
-    Route::get('/patient', [PatientController::class, 'index']);
+    Route::resource('/patient', PatientController::class);
+    Route::resource('/reservation', ReservationController::class);
+    Route::get('/Favoris', [PatientController::class, 'showFavoris'])->name('favoris');
+    Route::get('/doctor', [PatientController::class, 'showDoctor'])->name('doctor');
+    Route::resource('/commentaire', CommeantaireController::class);
+    Route::get('/imprimer/{id}', [PatientController::class, 'showCerficat'])->name('certaficat');
+    Route::get('/filtrer', [ReservationController::class, 'filtrer'])->name('filtrer.specialite');
+    Route::post('/reserve', [ReservationController::class, 'reserveurgence'])->name('urgence.reservation');
 });
 
 Route::middleware(['auth', RoleMiddleware::class . ':admin'])->group(function () {
     Route::get('/admin', [AdminController::class, 'index'])->name('admin');
     Route::resource('/specialite', SpecialiteController::class);
     Route::resource('/medicament', MedicamentController::class);
+
+
 });
+// Route::middleware(['role:admin'])->group(function () {
+//     Route::resource('/medicament', MedicamentController::class);
+// });
+
+// Route::middleware(['role:medecin'])->group(function () {
+//     Route::resource('/medicament', MedicamentController::class);
+// });
+// Route::middleware(['auth', 'role:medecin,admin'])->group(function () {
+//     Route::resource('/medicament', MedicamentController::class);
+// });
 
 Route::get('/', function () {
 
@@ -51,15 +78,15 @@ Route::get('/', function () {
 
         return redirect('/login');
 
-    switch(auth()->user()->role){
+    switch (auth()->user()->role) {
         case 'admin':
-            return  redirect('/admin');
+            return redirect('/admin');
         case 'patient':
-            return     redirect('/patient');
+            return redirect('/patient');
         case 'medecin':
-            return   redirect('/medecin');
+            return redirect('/medecin');
         default:
-            return  redirect('/login');
+            return redirect('/login');
     }
 
 });
