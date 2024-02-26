@@ -24,11 +24,11 @@ class MedecinController extends Controller
 
         return view('medecin.reservationpation', compact('reserve'));
     }
-    public function show($cons)
+    public function show($item)
     {
 
-        $con = Certificat::with('patient')->find($cons);
-        // dd($con);
+        $con = Certificat::with('patient')->find($item);
+      
         return view('medecin.personne', ['con' => $con]);
 
     }

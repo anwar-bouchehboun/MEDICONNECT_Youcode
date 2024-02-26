@@ -42,7 +42,7 @@
                 <h2 class="mb-4 text-lg font-semibold">Tableau de réservation</h2>
                 <div id="reservationSlots" class="flex gap-2">
                   <div class="p-4 bg-white rounded-md shadow-md">
-                    <p class="mb-2 text-lg font-semibold">9h00-10h00</p>
+                    <p class="mb-2 text-lg font-semibold">09h00-10h00</p>
                     <button data-time="9h-10h" class="px-4 py-2 font-bold text-white bg-blue-500 rounded reserveButton hover:bg-blue-700 focus:outline-none focus:shadow-outline">Réserver</button>
                   </div>
                   <div class="p-4 bg-white rounded-md shadow-md">
